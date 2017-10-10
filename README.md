@@ -52,10 +52,12 @@ Try (ต้อง login ด้วยนะ)
 http://localhost:8000
 http://localhost:8000/admin
 
-## Should rx {"hello": "world"} 
+http://127.0.0.1:8000/example_api/
+
+## Should see {"hello": "world"} 
 http://127.0.0.1:8000/example_api/hello          
 
-## Should rx {"hello": "world"} 
+## Should see {"hello": "world"} 
 http://127.0.0.1:8000/example_api/hello?format=json
 
 http://127.0.0.1:8000/example_api/world
@@ -67,7 +69,7 @@ Try
 
 ## POST Raw payload(Method type=application/x-www-form-urlencoded)
 ## Content: `foo=bar`  
-## Should rx {"result": {"foo": "bar"}}
+## Should see {"result": {"foo": "bar"}}
 http://127.0.0.1:8000/example_api/hello 
 
 ```
@@ -85,11 +87,11 @@ Authorization / Basic YWRtaW46cGFzc3dvcmQxMjM=
 4. Try POST to `http://127.0.0.1:8000/example_api/world` with  
 ```
 ## 4.1 Raw header: {"q":"world"}
-### Should rx 200 OK with json:
+### Should see 200 OK with json:
 { "result": "world is your query string"}
 
 ## 4.2 Raw header: {"hello"="world"}
-### Should rx 400 Bad Request with json:
+### Should see 400 Bad Request with json:
 {}
 
 ```

@@ -15,17 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from auth import views as authviews
 from rest_framework import routers
-from example_api import views as example_apiviews
+
 
 router = routers.DefaultRouter()
-router.register(r'users', example_apiviews.UserViewSet)
-router.register(r'groups', example_apiviews.GroupViewSet)
+router.register(r'users', authviews.UserViewSet)
+router.register(r'groups', authviews.GroupViewSet)
 
 urlpatterns = [
+    # 'r' : regular expression
+    # '^' : beginning
+    # '$' : ending 
+    # so r'^$' means when requested to individual app path, for example, 
+    # http://127.0.0.1:8000/
 	url(r'^', include(router.urls)),
+    url(r'^admin/', admin.site.urls),
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
-    url(r'^example_api/hello', example_apiviews.Hello.as_view(), name="hello"),
-    url(r'^example_api/world', example_apiviews.World.as_view(), name="world"),	
-	url(r'^admin/', admin.site.urls),
+    url(r'^example_api/', include('example_api.urls')),
+    url(r'^samplepage/', include('samplepage.urls')),
 ]

@@ -1,10 +1,6 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from example_api.serializers import UserSerializer, GroupSerializer
-
 from django.utils.encoding import force_text
 from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -15,23 +11,10 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 
 import json
-import math
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+from .models import Person
+from .serializers import PersonSerializer
 
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-   
 class Hello(APIView):
     def get(self, request, *args, **kw):
         print("calling get method of Hello")
@@ -87,3 +70,15 @@ class World(APIView):
         result = {"result": output}
         response = Response(result, status=status.HTTP_200_OK)
         return response 
+
+# Lists all persons or create a new person
+class PersonList(APIView):
+
+    def get(self, request):
+        persons = Person.objects.all()
+        serializer = PersonSerializer(persons, many=True)
+        return Response(serializer.data)
+
+    def post(self):
+        pass
+        
