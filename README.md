@@ -95,5 +95,7 @@ Authorization / Basic YWRtaW46cGFzc3dvcmQxMjM=
 {}
 
 ```
-
+  
+Try: get/put/delete http://127.0.0.1:8000/example_api/age/10/ to manipulate person that "age == 10"  
+  
 
