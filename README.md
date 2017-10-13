@@ -1,8 +1,10 @@
-References  
+## References  
 - [quickstart](http://www.django-rest-framework.org/tutorial/quickstart/)  
 - [status code](http://www.django-rest-framework.org/api-guide/status-codes/)  
+- [django-rest-framework example](http://www.django-rest-framework.org/#example)  
+  
 
-Requirement
+## Requirement
 - python 3.6.x because 'String Interpolation' syntax [More](https://www.python.org/dev/peps/pep-0498/)    
 
 Project นี้ถูกสร้างด้วยขั้นตอนคร่าวๆดังนี้  
@@ -96,6 +98,10 @@ Authorization / Basic YWRtaW46cGFzc3dvcmQxMjM=
 
 ```
   
-Try: get/put/delete http://127.0.0.1:8000/example_api/age/10/ to manipulate person that "age == 10"  
-  
+Try: get/put/delete 
+```
+http://127.0.0.1:8000/example_api/age/10/   # To manipulate person "age == 10"
+http://127.0.0.1:8000/example_api/name/Judy/ # To manipulate person "name == Judy"
+```
 
+  

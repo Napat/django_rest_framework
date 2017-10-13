@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.parsers import JSONParser
+from rest_framework import mixins
+from rest_framework import generics
 
 import json
 
@@ -100,6 +102,12 @@ class PersonDetailByAge(APIView):
             raise Http404
 
     def get(self, request, age, format=None):
+        try: 
+            person = self.get_object(age)
+        except Person.MultipleObjectsReturned:
+            person = {"detail":"MultipleObjectsReturned"}
+            return Response(person, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
+
         person = self.get_object(age)
         serializer = PersonSerializer(person)
         return Response(serializer.data)
@@ -117,3 +125,36 @@ class PersonDetailByAge(APIView):
         person.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class PersonDetailByName(APIView):
+    """
+    Retrieve, update(by put) or delete a person instance.
+    """
+    def get_object(self, name):
+        try:
+            return Person.objects.get(name=name)
+        except Person.DoesNotExist:
+            raise Http404
+
+    def get(self, request, name, format=None):
+        try: 
+            person = self.get_object(name)
+        except Person.MultipleObjectsReturned:
+            person = {"detail":"Dataase error MultipleObjectsReturned"}
+            return Response(person, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
+
+        serializer = PersonSerializer(person)
+        return Response(serializer.data)
+
+    def put(self, request, name, format=None):
+        person = self.get_object(name)
+        serializer = PersonSerializer(person, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, name, format=None):
+        person = self.get_object(name)
+        person.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+ 

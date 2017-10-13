@@ -5,6 +5,10 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from .serializers import UserSerializer, GroupSerializer
 
+##################################################################################
+# Using generic class-based views: http://www.django-rest-framework.org/tutorial/3-class-based-views/#using-generic-class-based-views
+##################################################################################
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -19,3 +23,4 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    
