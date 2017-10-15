@@ -34,4 +34,5 @@ urlpatterns = [
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
     url(r'^example_api/', include('example_api.urls')),
     url(r'^samplepage/', include('samplepage.urls')),
+    url(r'^music/', include('music.urls')),
 ]
