@@ -1,5 +1,7 @@
 
-# To migrate database when change models.py
+# Basic models and database
+
+## To migrate database when change models.py
 ```
 ## creating new migrations
 python manage.py makemigrations music
@@ -11,7 +13,7 @@ python manage.py sqlmigrate music 0001
 python manage.py migrate
 ```
 
-# Django database shell(Python shell with Django database command)  
+## Django database shell(Python shell with Django database command)  
 ```
 ## Open Django database api shell and input some database commands
 python manage.py shell
@@ -50,5 +52,34 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> Album.objects.all()
 <QuerySet [<Album: Album object>, <Album: Album object>]>
 >>> 
+>>> exit()
+```
+
+## To set string represent the Album object, we need to create string dunder method.  
+``` 
+# Set string dunder object
+class Album(models.Model):
+    ...
+    def __str__(self):
+        return self.album_title + ' - ' + self.artist
+    ...
+```
+
+## Test string dunder of Album  
+```
+python manage.py shell
+>>> from music.models import Album, Song
+>>> Album.objects.all()
+<QuerySet [<Album: Red - Taylor Swift>, <Album: Blue Blood - X Japan>]>
+>>> 
+>>> Album.objects.filter(id=2)
+<QuerySet [<Album: Blue Blood - X Japan>]>
+>>> 
+>>> Album.objects.filter(id=3)
+<QuerySet []> 
+>>> 
+>>> Album.objects.filter(artist__startswith='X')
+<QuerySet [<Album: Blue Blood - X Japan>]>
 >>> 
 ```
+
