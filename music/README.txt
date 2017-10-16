@@ -83,3 +83,50 @@ python manage.py shell
 >>> 
 ```
 
+## Adding object1 that has relationship with object2 using shell(Song --> Album)  
+
+Open python shell with Django  
+```
+python manage.py shell
+---------------------------------------------------
+```
+
+- Method 1: Create Song object and set reference to Album object  
+```
+>>> from music.models import Album, Song
+>>> album1 = Album.objects.get(pk=1)        # get object with primary key= 1
+>>> album1.artist  
+'Taylor Swift'
+>>> song = Song()                           # New object
+>>> song.album = album1 
+>>> song.file_type = 'mp3'
+>>> song.song_title = 'Begin Agirl'         # With misspell
+>>> song.save()
+>>>
+############################################## 
+### Try http://127.0.0.1:8000/admin/music/song/  
+### and notice missspell
+############################################## 
+>>> song.song_title = 'Begin Again'         # To change 
+>>> song.save()
+############################################## 
+### Try http://127.0.0.1:8000/admin/music/song/  
+############################################## 
+```
+
+- Method 2: Using related objects set   
+```
+>>> album1.song_set.count()
+1
+>>> song2 = album1.song_set.create(song_title='Red',file_type='mp3')
+>>> song3 = album1.song_set.create(song_title='Treacherous',file_type='mp3')
+>>> song4 = album1.song_set.create(song_title='I Knew You Were Trouble',file_type='mp3')
+>>> song5 = album1.song_set.create(song_title='All Too Well',file_type='mp3')
+>>> song4.song_title
+'I Knew You Were Trouble'
+>>> album1.song_set.count()
+5
+############################################## 
+### Try http://127.0.0.1:8000/admin/music/song/  
+############################################## 
+```
