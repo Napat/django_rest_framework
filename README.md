@@ -36,9 +36,13 @@ $ pip install -r requirements.txt
 
 การใช้งานครั้งแรกจะต้องทำการ migrate database คำสั่งดังนี้  
 ```
-# First time only: Create database and user/password: 'admin'/'password123'
-$ python manage.py migrate
+$  python manage.py makemigrations
+#### for specific app: $ python manage.py makemigrations music
+$ python manage.py migrate   
+$ 
+#### First time only: Create database and user/password: 'admin'/'password123'
 $ python manage.py createsuperuser
+$ 
 ```
   
 More about database config: `site_projectcfg/setting.py` > `DATABASES = {...}`
