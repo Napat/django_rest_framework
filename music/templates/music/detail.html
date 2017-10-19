@@ -6,7 +6,8 @@
 
 {% block body %}
 
-	<img src="{{ album.album_logo }}">
+	<img src="{{ album.album_logo }}" style="width: 250px;">
+	
 	<h1>{{ album.album_title }}</h1>
 	<h3>{{ album.artist }}</h3>
 
@@ -14,15 +15,21 @@
 		<p><strong>{{ error_message }}</strong></p>
 	{% endif %}
 
-	<!-- <ul>
-		{% for song in album.song_set.all %}
-			<li>{{ song.song_title }}.{{ song.file_type }}</li>
-		{% endfor %}
-	</ul>
-	 -->
+	{% for song in album.song_set.all %}
+		{{ song.song_title }}.{{ song.file_type }}
+		{% if song.is_favorite	%}
+			<img src="http://i.imgur.com/b9b13Rd.png" />
+		{% endif %}	
+		<br>	
+	{% endfor %}
 
-	<form action="{% url 'music:favorite' album.id %}" method="post">
-		{% csrf_token %}	<!-- https://www.blognone.com/node/37959 -->
+{% endblock body %}
+
+	<!-- Backup -->
+	<!-- Deplicate: only for example, not proper way to favorite songs  -->
+	<!-- https://www.blognone.com/node/37959 -->
+	<!-- <form action="{% url 'music:favorite' album.id %}" method="post">
+		{% csrf_token %}	
 		{% for song in album.song_set.all %}
 			<input type="radio" id="song{{ forloop.counter }}" name="song" value="{{ song.id }}">
 			<label for="song{{ forloop.counter }}">
@@ -33,6 +40,4 @@
 			</label><br>
 		{% endfor %}
 		<input type="submit" value="Favorite">
-	</form>
-
-{% endblock body %}
+	</form> -->
