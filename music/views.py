@@ -2,6 +2,7 @@
 # Using django generic views
 ###############################################################
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Album 
 
 # generic.ListView: to view the list of objects
@@ -18,6 +19,10 @@ class DetailView(generic.DetailView):
 	template_name = 'music/detail.html' # plugin template
 	model = Album 						# set object type for handler  
  	
+# CreateView: class to create form for new object(ie: Album object)
+class AlbumCreate(CreateView):
+	model = Album 
+	fields = ['artist', 'album_title', 'genre', 'album_logo']
 
 # ###############################################################
 # Deplicate code: Only for understand detail
