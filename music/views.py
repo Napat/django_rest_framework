@@ -4,7 +4,12 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import render, redirect 
+from django.contrib.auth import authenticate, login
+from django.views.generic import View 
+
 from .models import Album 
+from .forms import UserForm
 
 # generic.ListView: to view the list of objects
 class IndexView(generic.ListView):
@@ -35,6 +40,42 @@ class AlbumDelete(DeleteView):
 	model = Album 
 	success_url = reverse_lazy('music:index')	# redirect to music/index page if success deleted
 
+class UserFormView(View):
+	form_class = UserForm
+	template_name = 'music/registration_form.html' 
+
+	# display blank form
+	def get(self, request):
+		form = self.form_class(None)
+		return render(request, self.template_name, {'form': form})
+
+	# process form data: write data(from POST) to database
+	def post(self, request):
+		# get data that user input to form and POST
+		form = self.form_class(request.POST)
+
+		if form.is_valid():
+			# storing to local object variable(user) but still NOT save to database yet
+			user = form.save(commit=False)	
+
+			# cleaned(normalized) data
+			username = form.cleaned_data['username']
+			password = form.cleaned_data['password']
+			user.set_password(password)		# replace password have to call set_password()
+
+			user.save()
+
+			# return User objects if credentials are corrent
+			user = authenticate(username=username, password=password)
+
+			if user is not None:
+				# check user is not in banned list
+				if user.is_active:
+					login(request, user)
+					return redirect('music:index')
+
+		# something is wrong! return blank form to user
+		return render(request, self.template_name, {'form': form})
 
 # ###############################################################
 # Deplicate code: Only for understand detail
