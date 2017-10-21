@@ -3,6 +3,7 @@
 ###############################################################
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 from .models import Album 
 
 # generic.ListView: to view the list of objects
@@ -23,6 +24,17 @@ class DetailView(generic.DetailView):
 class AlbumCreate(CreateView):
 	model = Album 
 	fields = ['artist', 'album_title', 'genre', 'album_logo']
+
+# UpdateView: class to create form for update object(ie: Album object)
+class AlbumUpdate(UpdateView):
+	model = Album 
+	fields = ['artist', 'album_title', 'genre', 'album_logo']
+
+# DeleteView: class to Delete object handler
+class AlbumDelete(DeleteView):
+	model = Album 
+	success_url = reverse_lazy('music:index')	# redirect to music/index page if success deleted
+
 
 # ###############################################################
 # Deplicate code: Only for understand detail
