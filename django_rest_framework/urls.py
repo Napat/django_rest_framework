@@ -18,6 +18,8 @@ from django.contrib import admin
 from auth import views as authviews
 from rest_framework import routers
 
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register(r'users', authviews.UserViewSet)
@@ -36,3 +38,9 @@ urlpatterns = [
     url(r'^samplepage/', include('samplepage.urls')),
     url(r'^music/', include('music.urls')),
 ]
+
+# if debug mode(developer env)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
