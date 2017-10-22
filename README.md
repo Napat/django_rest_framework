@@ -108,4 +108,8 @@ http://127.0.0.1:8000/example_api/age/10/   # To manipulate person "age == 10"
 http://127.0.0.1:8000/example_api/name/Judy/ # To manipulate person "name == Judy"
 ```
 
-  
+
+------------------------------------------------
+
+# Music app  
+There are many django example implement in music app `http://127.0.0.1:8000/music/` more detail [see](/music/)  
